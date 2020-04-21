@@ -1,7 +1,8 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 import logoImage from '../../assets/logo.svg';
-import { Title, Form, Repositories } from './Dashboard.styles';
+import { Title, Form, Repositories, Error } from './Dashboard.styles';
 import GithubApi from '../../services/GithubApi';
 
 interface Repository {
@@ -14,27 +15,55 @@ interface Repository {
 }
 
 const Dashboard: React.FC = () => {
-  const [repositories, setRepositories] = useState<Repository[]>([]);
+  const [repositories, setRepositories] = useState<Repository[]>(() => {
+    const storagedRepositories = localStorage.getItem(
+      '@GithubExplorer:repositories',
+    );
+
+    if (storagedRepositories) {
+      return JSON.parse(storagedRepositories);
+    }
+    return [];
+  });
+  const [inputError, setInputError] = useState('');
   const [repositoryInput, setRepositoryInput] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem(
+      '@GithubExplorer:repositories',
+      JSON.stringify(repositories),
+    );
+  }, [repositories]);
 
   async function handleAddRepository(
     event: FormEvent<HTMLFormElement>,
   ): Promise<void> {
     // Stop the form default behavior - which is submit
     event.preventDefault();
-    const response = await GithubApi.get<Repository>(
-      `/repos/${repositoryInput}`,
-    );
-    const repository = response.data;
-    setRepositories([...repositories, repository]);
-    setRepositoryInput('');
+
+    if (!repositoryInput) {
+      setInputError('Digite o auto/nome do repositório');
+      return;
+    }
+
+    try {
+      const response = await GithubApi.get<Repository>(
+        `/repos/${repositoryInput}`,
+      );
+      const repository = response.data;
+      setRepositories([...repositories, repository]);
+      setRepositoryInput('');
+      setInputError('');
+    } catch (err) {
+      setInputError('Erro ao buscar repositorio');
+    }
   }
 
   return (
     <>
       <img src={logoImage} alt="Github Explorer" />
       <Title>Explore repositórios no github</Title>
-      <Form onSubmit={handleAddRepository}>
+      <Form hasError={!!inputError} onSubmit={handleAddRepository}>
         <input
           value={repositoryInput}
           onChange={event => setRepositoryInput(event.target.value)}
@@ -42,10 +71,14 @@ const Dashboard: React.FC = () => {
         />
         <button type="submit">Pesquisar</button>
       </Form>
+      {inputError && <Error>{inputError}</Error>}
       <Repositories>
         {repositories.map(repository => {
           return (
-            <a key={repository.full_name} href="test/">
+            <Link
+              key={repository.full_name}
+              to={`/repository/${repository.full_name}`}
+            >
               <img
                 src={repository.owner.avatar_url}
                 alt={repository.owner.login}
@@ -55,7 +88,7 @@ const Dashboard: React.FC = () => {
                 <p>{repository.description}</p>
               </div>
               <FiChevronRight size={20} />
-            </a>
+            </Link>
           );
         })}
       </Repositories>
