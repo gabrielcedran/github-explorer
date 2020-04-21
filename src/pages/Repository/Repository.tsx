@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { Header, RepositoryInfo, Issues } from './Repository.styles';
+import { Header, RepositoryInfo, Issues, Errors } from './Repository.styles';
 import logoImage from '../../assets/logo.svg';
 import Github from '../../services/GithubApi';
 
@@ -32,18 +32,26 @@ const Repository: React.FC = () => {
   const { params } = useRouteMatch<RepositoryParams>();
   const [repository, setRepository] = useState<Repository | null>(null);
   const [issues, setIssues] = useState<Issue[]>([] as Issue[]);
+  const [errors, setError] = useState<string[]>([]);
 
   useEffect(() => {
     Github.get<Repository>(`/repos/${params.repository}`)
       .then(({ data }) => {
         setRepository(data);
       })
-      .catch(response => {});
+      .catch(response => {
+        setError(value => [
+          ...value,
+          'Não foi possivel carregar o repositório.',
+        ]);
+      });
     Github.get<Issue[]>(`/repos/${params.repository}/issues`)
       .then(({ data }) => {
         setIssues(data);
       })
-      .catch(response => {});
+      .catch(response => {
+        setError(value => [...value, 'Não foi possivel carregar as issues.']);
+      });
 
     /* In general it is a bad practice, the following is an example of how to use async/await inside useEffect,
     since it is synchronous and does not accept promises as return.
@@ -63,6 +71,7 @@ const Repository: React.FC = () => {
       Github.get(`/repos/${params.repository}/issues`)
     ]);
     */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.repository]);
 
   return (
@@ -120,6 +129,15 @@ const Repository: React.FC = () => {
           );
         })}
       </Issues>
+      {errors && (
+        <Errors>
+          <ul>
+            {errors.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
+        </Errors>
+      )}
     </>
   );
 };

@@ -35,6 +35,19 @@ const Dashboard: React.FC = () => {
     );
   }, [repositories]);
 
+  useEffect(() => {
+    if (repositories.length === 0) {
+      GithubApi.get<Repository>(
+        '/repos/gabrielcedran/clean-architecture-simple-sample',
+      )
+        .then(({ data: repository }) => {
+          setRepositories([...repositories, repository]);
+        })
+        .catch(reposnse => console.error('Could not load initial data.'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   async function handleAddRepository(
     event: FormEvent<HTMLFormElement>,
   ): Promise<void> {
@@ -67,7 +80,7 @@ const Dashboard: React.FC = () => {
         <input
           value={repositoryInput}
           onChange={event => setRepositoryInput(event.target.value)}
-          placeholder="Digite o nome do repositório"
+          placeholder="Digite o nome do repositório (formato username/repository)"
         />
         <button type="submit">Pesquisar</button>
       </Form>

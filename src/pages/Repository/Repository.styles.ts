@@ -119,3 +119,17 @@ export const Issues = styled.article`
     }
   }
 `;
+
+export const Errors = styled.article`
+  display: flex;
+  justify-content: center;
+  ul {
+    list-style: none;
+
+    li {
+      font-size: 39px;
+      font-weight: bold;
+      color: #e2132e;
+    }
+  }
+`;
