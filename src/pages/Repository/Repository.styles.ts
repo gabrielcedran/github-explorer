@@ -87,7 +87,7 @@ export const Issues = styled.article`
 
     display: flex;
     align-items: center;
-    transition: color 0.2s;
+    transition: transform 0.5s;
 
     &:hover {
       transform: translateX(10px);
