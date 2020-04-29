@@ -1,44 +1,33 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Github Explorer
+Esse projeto foi criado durante o bootcamp gostack 11 da [rocketseat](https://rocketseat.com.br/) como um primeiro projeto completo em ReactJS consumindo uma API real, para que os participantes pudessem ter uma primeira experiência de como o desenvolvimento web é feito no mundo do React.
 
-## Available Scripts
+A principal funcionalidade dessa aplicação é listar repositórios do github inseridos pelo usuário no formato {username}/{repository}. Uma vez listado, é possível clicar no repositório e ver todas as issues abertas e algumas métricas, como número de forks, starts e total de issues abertas.
 
-In the project directory, you can run:
 
-### `yarn start`
+O resultado final da aplicação pode ser acessado em [gabrielcedra.me](gabrielcedran.me). 
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Stack utilizada
+- React
+- React Router Dom
+- Styled Components
+- Typescript
+- React Icons
+- Polished
+- Axios
+- Eslinnt
+- Prettier
+- Yarn
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Preparando o ambiente de desenvolvimento
+O projeto foi criado com a ferramenta create-react-app e yarn e não foi ejetado desde então, portanto possui os scripts que vem por padrao:
 
-### `yarn test`
+#### yarn: 
+Ao clonar o repositório, execute o comando yarn na raiz do projeto para instalar todas a dependências.
+#### yarn start:
+Para iniciar o servidor de desenvolvimento, execute yarn start (o servidor padrão executará na porta 3000).
+#### yarn build:
+Para gerar um artefato de produção, execute o comando yarn build.
+#### yarn eject:
+Caso seja necessário alguma configuração customizada que não é possível alcançar com a configuração padrão (por exemplo alguma configuração específica do webpack), basta executa o comando yarn eject e toda a estrutura que é encapsulada pelo react-scripts será criada no projeto para que possa ser alterada. Esse comando deve ser executado com cautela, pois uma vez feito, não tem como desfazer.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
