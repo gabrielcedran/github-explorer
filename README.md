@@ -4,7 +4,7 @@ Esse projeto foi criado durante o bootcamp gostack 11 da [rocketseat](https://ro
 A principal funcionalidade dessa aplicação é listar repositórios do github inseridos pelo usuário no formato {username}/{repository}. Uma vez listado, é possível clicar no repositório e ver todas as issues abertas e algumas métricas, como número de forks, starts e total de issues abertas.
 
 
-O resultado final da aplicação pode ser acessado em [gabrielcedran.me](gabrielcedran.me). 
+O resultado final da aplicação pode ser acessado em [gabrielcedran.me](https://gabrielcedran.me). 
 
 ### Stack utilizada
 - React
